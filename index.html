@@ -38,7 +38,6 @@
 </head>
 <body class="text-slate-900 min-h-screen flex flex-col justify-between">
 
-  <!-- 1. WELCOME SCREEN -->
   <div id="welcomeScreen" class="min-h-screen flex items-center justify-center p-4 text-white">
     <div class="max-w-md w-full text-center space-y-6">
       <div class="space-y-3">
@@ -49,6 +48,7 @@
         <div>
           <h1 id="welcomeTitle" class="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md">SVR Food Products</h1>
           <p id="welcomeTagline" class="text-xs text-emerald-200 mt-1 font-semibold drop-shadow-sm">నాణ్యతకు నమ్మకం • రుచికి చిరునామా</p>
+          <p class="text-[10px] text-amber-300 font-bold mt-1">App v2.1</p>
         </div>
       </div>
 
@@ -100,7 +100,6 @@
     </div>
   </div>
 
-  <!-- 2. MAIN APP SCREEN -->
   <div id="appScreen" class="hidden flex-col min-h-screen">
 
     <header class="glass-nav text-white sticky top-0 z-30 shadow-lg border-b border-emerald-600/40">
@@ -260,7 +259,6 @@
     </footer>
   </div>
 
-  <!-- 3. DELIVERY ADDRESS MODAL -->
   <div id="deliveryModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50 overflow-y-auto">
     <div class="glass-card rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl my-8 border border-white">
       <div class="flex justify-between items-center border-b pb-3">
@@ -338,7 +336,6 @@
     </div>
   </div>
 
-  <!-- 4. KEY LOGIN MODAL -->
   <div id="keyModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50">
     <div class="glass-card rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl border border-white">
       <div class="flex justify-between items-center">
@@ -354,7 +351,6 @@
     </div>
   </div>
 
-  <!-- 5. PRODUCT DETAILS MODAL -->
   <div id="productDetailModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50 overflow-y-auto">
     <div class="glass-card rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-white relative my-8">
       <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center font-bold">✕</button>
@@ -383,7 +379,6 @@
     </div>
   </div>
 
-  <!-- 6. INSTALL GUIDE MODAL -->
   <div id="installGuideModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50">
     <div class="glass-card rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl text-center border border-white">
       <div class="w-14 h-14 bg-amber-100 text-amber-900 rounded-2xl mx-auto flex items-center justify-center text-2xl font-bold">📲</div>
@@ -414,6 +409,14 @@
       hotel:       { mode: "COD", status: "Free Door Delivery", note: "Payment upon delivery" },
       enduser:     { mode: "UPI", status: "Dispatch after Payment", note: "UPI payment required before dispatch" }
     };
+
+    const DEFAULT_SOCIAL_LINKS = [
+      { platform: "WhatsApp", url: `https://wa.me/${WHATSAPP_NUMBER}` },
+      { platform: "Instagram", url: "https://www.instagram.com/svrfoodproducts" },
+      { platform: "Facebook", url: "https://www.facebook.com/share/19UEBoLrBz/" },
+      { platform: "YouTube", url: "https://youtube.com/@svrfoodproducts" },
+      { platform: "Website", url: "https://www.svrfoodproducts.com/" }
+    ];
 
     let role = "enduser";
     let storeSettings = {};
@@ -466,15 +469,14 @@
           socialLinks = (json.social_links && json.social_links.length > 0) ? json.social_links : [];
           applySettings();
           populateStates();
-          renderSocialLinks();
         } else {
-          renderFallbackSocial();
+          showToast("Catalog unavailable. Using default view.");
         }
       } catch (err) {
         console.error("Failed to load store data", err);
         showToast("Could not load catalog. Check your internet.");
-        renderFallbackSocial();
       }
+      renderSocialLinks();
       document.getElementById('loader').classList.add('hidden');
     }
 
@@ -494,31 +496,31 @@
       if (storeSettings.email) document.getElementById('footerEmail').innerText = storeSettings.email;
     }
 
-    function renderFallbackSocial() {
-      socialLinks = [
-        { platform: "WhatsApp", url: `https://wa.me/${WHATSAPP_NUMBER}` },
-        { platform: "Instagram", url: "https://www.instagram.com/svrfoodproducts" },
-        { platform: "Facebook", url: "https://www.facebook.com/share/19UEBoLrBz/" },
-        { platform: "YouTube", url: "https://youtube.com/@svrfoodproducts" },
-        { platform: "Website", url: "https://www.svrfoodproducts.com/" }
-      ];
-      renderSocialLinks();
-    }
-
     function renderSocialLinks() {
       const container = document.getElementById('socialLinksGrid');
+      if (!container) return;
       container.innerHTML = '';
+
       const iconBadges = {
-        'whatsapp': '💬 WhatsApp', 'instagram': '📸 Instagram',
-        'facebook': '👍 Facebook', 'youtube': '▶️ YouTube', 'website': '🌐 Website'
+        'whatsapp': '💬 WhatsApp',
+        'instagram': '📸 Instagram',
+        'facebook': '👍 Facebook',
+        'youtube': '▶️ YouTube',
+        'website': '🌐 Website'
       };
-      socialLinks.forEach(link => {
-        const platKey = String(link.platform || '').trim().toLowerCase();
-        const label = iconBadges[platKey] || link.platform;
-        let href = link.url;
+
+      const list = (socialLinks && socialLinks.length > 0) ? socialLinks : DEFAULT_SOCIAL_LINKS;
+
+      list.forEach(link => {
+        const platKey = String(link.platform || link.Platform || '').trim().toLowerCase();
+        const label = iconBadges[platKey] || link.platform || 'Link';
+        let href = link.url || link.URL || '#';
         if (platKey === 'whatsapp') href = `https://wa.me/${WHATSAPP_NUMBER}`;
+
         const a = document.createElement('a');
-        a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer";
+        a.href = href;
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
         a.className = "px-3.5 py-2 rounded-xl bg-emerald-900 hover:bg-emerald-800 text-emerald-100 hover:text-white font-semibold text-xs border border-emerald-700 shadow-xs transition inline-flex items-center gap-1.5";
         a.innerHTML = label;
         container.appendChild(a);
