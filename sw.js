@@ -1,5 +1,5 @@
 /* SVR Foods Service Worker */
-const CACHE_NAME = 'svr-foods-v1';
+const CACHE_NAME = 'svr-foods-v2';
 
 const PRECACHE = [
   './',
