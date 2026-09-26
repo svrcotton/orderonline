@@ -1,5 +1,5 @@
-/* SVR Foods Service Worker - v4.0 */
-const CACHE_NAME = 'svr-foods-v4-0';
+/* SVR Foods Service Worker - v4.1 */
+const CACHE_NAME = 'svr-foods-v4-1';
 
 self.addEventListener('install', (e) => {
   self.skipWaiting();
