@@ -34,10 +34,22 @@
     .glass-nav { background: rgba(6, 78, 59, 0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
     .glass-banner { background: rgba(254, 252, 232, 0.92); backdrop-filter: blur(8px); }
     img { content-visibility: auto; }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .animate-modal { animation: modalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+    @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
+    .animate-fade { animation: fadeIn 0.2s ease; }
+
+    .role-btn:disabled { opacity: 0.55; cursor: not-allowed; }
   </style>
 </head>
 <body class="text-slate-900 min-h-screen flex flex-col justify-between">
 
+  <!-- 1. WELCOME SCREEN -->
   <div id="welcomeScreen" class="min-h-screen flex items-center justify-center p-4 text-white">
     <div class="max-w-md w-full text-center space-y-6">
       <div class="space-y-3">
@@ -48,7 +60,7 @@
         <div>
           <h1 id="welcomeTitle" class="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md">SVR Food Products</h1>
           <p id="welcomeTagline" class="text-xs text-emerald-200 mt-1 font-semibold drop-shadow-sm">నాణ్యతకు నమ్మకం • రుచికి చిరునామా</p>
-          <p class="text-[10px] text-amber-300 font-bold mt-1">App v2.1</p>
+          <p class="text-[10px] text-amber-300 font-bold mt-1">App v2.2</p>
         </div>
       </div>
 
@@ -56,9 +68,13 @@
         <div class="text-center pb-2">
           <h2 class="text-base font-extrabold text-amber-300">స్వాగతం! Welcome</h2>
           <p class="text-xs text-emerald-100/90 mt-0.5">Select your role to view fresh Godavari produce rates</p>
+          <p id="loadingNotice" class="text-[11px] text-amber-200 font-bold mt-2 flex items-center justify-center gap-1.5">
+            <span class="inline-block animate-spin rounded-full h-3 w-3 border-2 border-amber-300 border-t-transparent"></span>
+            <span>Connecting to catalog...</span>
+          </p>
         </div>
 
-        <button onclick="selectRole('enduser')" class="w-full bg-white/95 hover:bg-white text-slate-900 p-4 rounded-2xl shadow-md flex items-center justify-between transition-all transform hover:-translate-y-0.5 group border-2 border-transparent hover:border-emerald-500">
+        <button id="roleBtnRetail" disabled onclick="selectRole('enduser')" class="role-btn w-full bg-white/95 hover:bg-white text-slate-900 p-4 rounded-2xl shadow-md flex items-center justify-between transition-all transform hover:-translate-y-0.5 group border-2 border-transparent hover:border-emerald-500">
           <div class="flex items-center gap-3.5">
             <span class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-xl font-bold">🌾</span>
             <div>
@@ -69,7 +85,7 @@
           <span class="text-emerald-800 font-bold group-hover:translate-x-1 transition text-lg">→</span>
         </button>
 
-        <button onclick="promptKeyLogin('hotel')" class="w-full bg-white/95 hover:bg-white text-slate-900 p-4 rounded-2xl shadow-md flex items-center justify-between transition-all transform hover:-translate-y-0.5 group border-2 border-transparent hover:border-emerald-500">
+        <button id="roleBtnHotel" disabled onclick="promptKeyLogin('hotel')" class="role-btn w-full bg-white/95 hover:bg-white text-slate-900 p-4 rounded-2xl shadow-md flex items-center justify-between transition-all transform hover:-translate-y-0.5 group border-2 border-transparent hover:border-emerald-500">
           <div class="flex items-center gap-3.5">
             <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center text-xl font-bold">🏨</span>
             <div>
@@ -80,7 +96,7 @@
           <span class="text-emerald-800 font-bold group-hover:translate-x-1 transition text-lg">🔑</span>
         </button>
 
-        <button onclick="promptKeyLogin('distributor')" class="w-full bg-white/95 hover:bg-white text-slate-900 p-4 rounded-2xl shadow-md flex items-center justify-between transition-all transform hover:-translate-y-0.5 group border-2 border-transparent hover:border-emerald-500">
+        <button id="roleBtnDist" disabled onclick="promptKeyLogin('distributor')" class="role-btn w-full bg-white/95 hover:bg-white text-slate-900 p-4 rounded-2xl shadow-md flex items-center justify-between transition-all transform hover:-translate-y-0.5 group border-2 border-transparent hover:border-emerald-500">
           <div class="flex items-center gap-3.5">
             <span class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-900 flex items-center justify-center text-xl font-bold">🏢</span>
             <div>
@@ -100,6 +116,7 @@
     </div>
   </div>
 
+  <!-- 2. MAIN APP SCREEN -->
   <div id="appScreen" class="hidden flex-col min-h-screen">
 
     <header class="glass-nav text-white sticky top-0 z-30 shadow-lg border-b border-emerald-600/40">
@@ -139,7 +156,7 @@
         <span>🌾</span>
       </div>
 
-      <div id="loader" class="text-center py-16">
+      <div id="loader" class="text-center py-16 hidden">
         <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-amber-400 border-t-transparent mb-3"></div>
         <p class="text-sm font-bold text-white drop-shadow-md">Connecting to SVR Food Products catalog...</p>
       </div>
@@ -259,8 +276,9 @@
     </footer>
   </div>
 
+  <!-- 3. DELIVERY ADDRESS MODAL -->
   <div id="deliveryModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50 overflow-y-auto">
-    <div class="glass-card rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl my-8 border border-white">
+    <div class="glass-card rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl my-8 border border-white animate-modal">
       <div class="flex justify-between items-center border-b pb-3">
         <div>
           <h3 class="font-black text-base text-emerald-950">Enter Delivery Address</h3>
@@ -336,23 +354,57 @@
     </div>
   </div>
 
+  <!-- 4. KEY LOGIN MODAL (Redesigned) -->
   <div id="keyModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50">
-    <div class="glass-card rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl border border-white">
-      <div class="flex justify-between items-center">
-        <h3 class="font-black text-base text-emerald-950" id="keyModalTitle">Partner Login</h3>
-        <button onclick="toggleKeyModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-white overflow-hidden animate-modal">
+      <div class="bg-gradient-to-r from-emerald-800 to-emerald-900 px-6 py-5 text-white">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-2xl bg-amber-400 flex items-center justify-center text-emerald-950 text-xl shadow-lg">🔑</div>
+            <div>
+              <h3 class="font-black text-base leading-tight" id="keyModalTitle">Partner Login</h3>
+              <p class="text-[11px] text-emerald-200 mt-0.5">Secure wholesale access</p>
+            </div>
+          </div>
+          <button onclick="toggleKeyModal()" class="w-8 h-8 rounded-full bg-emerald-950/40 hover:bg-emerald-950/70 text-white font-bold flex items-center justify-center transition">✕</button>
+        </div>
       </div>
-      <p class="text-xs text-slate-600" id="keyModalSubtitle">Enter your secret passkey to access wholesale pricing.</p>
-      <input type="text" id="keyInput" placeholder="Enter key" class="w-full border p-2.5 rounded-xl text-sm outline-emerald-700 uppercase font-semibold">
-      <div class="flex justify-end gap-2 pt-2">
-        <button onclick="toggleKeyModal()" class="px-3 py-2 text-xs font-semibold text-slate-600">Cancel</button>
-        <button onclick="verifyKey()" class="px-4 py-2 text-xs font-bold bg-emerald-800 text-white rounded-xl hover:bg-emerald-900 transition shadow-md">Unlock Catalog</button>
+
+      <div class="p-6 space-y-4">
+        <p class="text-xs text-slate-600 leading-relaxed" id="keyModalSubtitle">
+          Enter your secret passkey to unlock partner pricing.
+        </p>
+
+        <div class="relative">
+          <input type="password" id="keyInput" placeholder="Enter passkey" autocomplete="off" autocapitalize="none"
+            class="w-full border-2 border-emerald-200 focus:border-emerald-600 p-4 pr-14 rounded-2xl text-base outline-none font-bold tracking-widest text-center bg-emerald-50/50 transition placeholder:tracking-normal placeholder:font-normal placeholder:text-sm" />
+          <button type="button" onclick="toggleKeyVisibility()" id="keyEyeBtn" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full hover:bg-emerald-100 text-emerald-700 flex items-center justify-center transition text-lg">
+            👁️
+          </button>
+        </div>
+
+        <p id="keyErrorMsg" class="text-xs text-red-600 font-bold hidden items-center gap-1.5 bg-red-50 border border-red-200 p-3 rounded-xl">
+          <span>⚠️</span><span id="keyErrorText"></span>
+        </p>
+
+        <div class="flex gap-2 pt-1">
+          <button onclick="toggleKeyModal()" class="flex-1 px-4 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-2xl transition">
+            Cancel
+          </button>
+          <button onclick="verifyKey()" id="keySubmitBtn" class="flex-1 px-4 py-3 text-sm font-black bg-emerald-800 hover:bg-emerald-900 text-white rounded-2xl transition shadow-lg flex items-center justify-center gap-2 disabled:opacity-60">
+            <span id="keySubmitText">Unlock</span>
+            <span id="keySubmitIcon">→</span>
+          </button>
+        </div>
+
+        <p class="text-[10px] text-center text-slate-400 pt-1">Contact SVR Foods for access keys</p>
       </div>
     </div>
   </div>
 
+  <!-- 5. PRODUCT DETAILS MODAL -->
   <div id="productDetailModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50 overflow-y-auto">
-    <div class="glass-card rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-white relative my-8">
+    <div class="glass-card rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-white relative my-8 animate-modal">
       <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center font-bold">✕</button>
       <div class="w-full h-56 bg-gradient-to-b from-emerald-50/60 to-white rounded-2xl flex items-center justify-center p-4 border border-emerald-100 shadow-inner">
         <img id="detailImg" src="" alt="Product Detail" class="max-h-full max-w-full object-contain drop-shadow-md">
@@ -379,8 +431,9 @@
     </div>
   </div>
 
+  <!-- 6. INSTALL GUIDE MODAL -->
   <div id="installGuideModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50">
-    <div class="glass-card rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl text-center border border-white">
+    <div class="glass-card rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl text-center border border-white animate-modal">
       <div class="w-14 h-14 bg-amber-100 text-amber-900 rounded-2xl mx-auto flex items-center justify-center text-2xl font-bold">📲</div>
       <h3 class="font-black text-lg text-emerald-950">Install SVR Foods App</h3>
       <p class="text-xs text-slate-600 leading-relaxed">Save this store portal directly on your mobile home screen:</p>
@@ -403,6 +456,8 @@
     const WHATSAPP_NUMBER = "918603095167";
     const FREE_DELIVERY_THRESHOLD = 1000;
     const DELIVERY_CHARGE = 60;
+    const CACHE_KEY = 'svr_catalog_cache_v1';
+    const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours
 
     const PAYMENT_RULES = {
       distributor: { mode: "COD", status: "Free Door Delivery", note: "Payment upon delivery" },
@@ -426,6 +481,7 @@
     let cart = {};
     let deliveryInfo = null;
     let deferredPrompt = null;
+    let dataReady = false;
 
     document.getElementById('currentYear').innerText = new Date().getFullYear();
 
@@ -457,11 +513,59 @@
       return Number(prod.retail_price) || 0;
     }
 
+    /* ========== CACHE HELPERS ========== */
+    function saveToCache() {
+      try {
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          ts: Date.now(),
+          settings: storeSettings,
+          products: products,
+          locations: locations,
+          social_links: socialLinks
+        }));
+      } catch (e) { console.warn('Cache save failed', e); }
+    }
+
+    function loadFromCache() {
+      try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+        if (!data || Date.now() - data.ts > CACHE_TTL_MS) return false;
+        storeSettings = data.settings || {};
+        products = data.products || [];
+        locations = data.locations || {};
+        socialLinks = data.social_links || [];
+        return true;
+      } catch (e) { return false; }
+    }
+
+    /* ========== ROLE BUTTONS ========== */
+    function enableRoleButtons() {
+      ['roleBtnRetail', 'roleBtnHotel', 'roleBtnDist'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = false;
+      });
+      const notice = document.getElementById('loadingNotice');
+      if (notice) notice.classList.add('hidden');
+    }
+
+    /* ========== INIT ========== */
     async function init() {
+      // 1. Try cache first (instant render for repeat visits)
+      const hadCache = loadFromCache();
+      if (hadCache && products.length > 0) {
+        dataReady = true;
+        applySettings();
+        populateStates();
+        renderSocialLinks();
+        enableRoleButtons();
+      }
+
+      // 2. Fetch fresh data
       try {
         const res = await fetch(`${API_URL}?action=getStoreData`, { cache: "no-store" });
         const json = await res.json();
-
         if (json.status === 'success') {
           storeSettings = json.settings || {};
           products = (json.products || []).filter(p => String(p.active).toUpperCase() !== 'FALSE');
@@ -469,13 +573,18 @@
           socialLinks = (json.social_links && json.social_links.length > 0) ? json.social_links : [];
           applySettings();
           populateStates();
-        } else {
-          showToast("Catalog unavailable. Using default view.");
+          renderSocialLinks();
+          saveToCache();
         }
       } catch (err) {
         console.error("Failed to load store data", err);
-        showToast("Could not load catalog. Check your internet.");
+        if (!hadCache) {
+          showToast("Could not load catalog. Check your internet.");
+        }
       }
+
+      dataReady = true;
+      enableRoleButtons();
       renderSocialLinks();
       document.getElementById('loader').classList.add('hidden');
     }
@@ -502,11 +611,8 @@
       container.innerHTML = '';
 
       const iconBadges = {
-        'whatsapp': '💬 WhatsApp',
-        'instagram': '📸 Instagram',
-        'facebook': '👍 Facebook',
-        'youtube': '▶️ YouTube',
-        'website': '🌐 Website'
+        'whatsapp': '💬 WhatsApp', 'instagram': '📸 Instagram',
+        'facebook': '👍 Facebook', 'youtube': '▶️ YouTube', 'website': '🌐 Website'
       };
 
       const list = (socialLinks && socialLinks.length > 0) ? socialLinks : DEFAULT_SOCIAL_LINKS;
@@ -528,6 +634,15 @@
     }
 
     function selectRole(selectedRole) {
+      if (!dataReady && products.length === 0) {
+        showToast('Catalog is still loading, please wait...');
+        return;
+      }
+      if (products.length === 0) {
+        showToast('No products available. Please try again later.');
+        return;
+      }
+
       role = selectedRole;
       document.getElementById('roleBadge').innerText = role === 'enduser' ? 'RETAIL' : role.toUpperCase();
 
@@ -558,10 +673,17 @@
 
     function promptKeyLogin(intendedRole) {
       const title = intendedRole === 'hotel' ? 'Hotel / Restaurant Access' : 'Distributor Wholesaler Access';
+      const sub = intendedRole === 'hotel'
+        ? 'Enter your hotel passkey to unlock wholesale pricing.'
+        : 'Enter your distributor passkey to unlock dealership pricing.';
       document.getElementById('keyModalTitle').innerText = title;
-      document.getElementById('keyModalSubtitle').innerText = `Enter the secret key assigned for ${intendedRole} pricing.`;
+      document.getElementById('keyModalSubtitle').innerText = sub;
       document.getElementById('keyInput').value = '';
+      document.getElementById('keyInput').type = 'password';
+      document.getElementById('keyEyeBtn').innerText = '👁️';
+      document.getElementById('keyErrorMsg').classList.add('hidden');
       document.getElementById('keyModal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('keyInput').focus(), 150);
     }
 
     function backToWelcome() {
@@ -573,15 +695,48 @@
 
     function toggleKeyModal() { document.getElementById('keyModal').classList.toggle('hidden'); }
 
+    function toggleKeyVisibility() {
+      const input = document.getElementById('keyInput');
+      const btn = document.getElementById('keyEyeBtn');
+      if (input.type === 'password') { input.type = 'text'; btn.innerText = '🙈'; }
+      else { input.type = 'password'; btn.innerText = '👁️'; }
+    }
+
+    function showKeyError(msg) {
+      document.getElementById('keyErrorText').innerText = msg;
+      document.getElementById('keyErrorMsg').classList.remove('hidden');
+      document.getElementById('keyErrorMsg').classList.add('flex');
+      document.getElementById('keyInput').focus();
+    }
+
     async function verifyKey() {
       const keyVal = document.getElementById('keyInput').value.trim();
-      if (!keyVal) return;
+      if (!keyVal) { showKeyError('Please enter your passkey.'); return; }
+
+      const btn = document.getElementById('keySubmitBtn');
+      const btnText = document.getElementById('keySubmitText');
+      const btnIcon = document.getElementById('keySubmitIcon');
+      btn.disabled = true;
+      btnText.innerText = 'Verifying';
+      btnIcon.innerHTML = '<span class="inline-block animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent"></span>';
+      document.getElementById('keyErrorMsg').classList.add('hidden');
+
       try {
         const res = await fetch(`${API_URL}?action=verifyKey&key=${encodeURIComponent(keyVal)}`);
         const json = await res.json();
-        if (json.status === 'success') { toggleKeyModal(); selectRole(json.role); }
-        else { showToast('Invalid Passkey! Please check your access code.'); }
-      } catch (err) { showToast('Could not verify passkey. Check your internet connection.'); }
+        if (json.status === 'success') {
+          toggleKeyModal();
+          selectRole(json.role);
+        } else {
+          showKeyError('Invalid passkey. Please check and try again.');
+        }
+      } catch (err) {
+        showKeyError('Connection error. Check your internet.');
+      } finally {
+        btn.disabled = false;
+        btnText.innerText = 'Unlock';
+        btnIcon.innerText = '→';
+      }
     }
 
     function goToCartPage() {
@@ -603,6 +758,7 @@
 
     function populateStates() {
       const stateSel = document.getElementById('stateSelect');
+      if (!stateSel) return;
       stateSel.innerHTML = '<option value="">-- Select State --</option>';
       const states = Object.keys(locations);
       states.forEach(s => {
@@ -738,7 +894,11 @@
       const grid = document.getElementById('catalogGrid');
       grid.innerHTML = '';
       if (!products.length) {
-        grid.innerHTML = `<div class="col-span-full text-center text-white font-semibold py-10">No products available right now.</div>`;
+        grid.innerHTML = `<div class="col-span-full text-center text-white font-semibold py-10 bg-emerald-950/60 rounded-2xl backdrop-blur-md p-6">
+          <div class="text-3xl mb-2">🔄</div>
+          <div>No products available right now.</div>
+          <div class="text-xs text-emerald-200 mt-2">Please refresh the page in a moment.</div>
+        </div>`;
         return;
       }
       products.forEach(p => {
@@ -931,6 +1091,11 @@
       toast.classList.remove('opacity-0'); toast.classList.add('opacity-100');
       setTimeout(() => { toast.classList.remove('opacity-100'); toast.classList.add('opacity-0'); }, 3000);
     }
+
+    // Enter key on passkey input
+    document.getElementById('keyInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); verifyKey(); }
+    });
 
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
