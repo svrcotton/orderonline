@@ -4,52 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>SVR Food Products - Sir Arthur Cotton Brand</title>
-
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#064e3b">
-
   <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/favicon.png">
   <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/icons/apple-touch-icon.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="SVR Foods">
-
   <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/logo.png">
   <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/background.jpg">
-
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
   <style>
-    body {
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      background: linear-gradient(to bottom, rgba(6, 78, 59, 0.88), rgba(20, 83, 45, 0.92)),
-                  url('https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/background.jpg') center center / cover no-repeat fixed;
-      transition: background 0.4s ease-in-out;
-    }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: linear-gradient(to bottom, rgba(6, 78, 59, 0.88), rgba(20, 83, 45, 0.92)), url('https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/background.jpg') center center / cover no-repeat fixed; transition: background 0.4s ease-in-out; }
     .glass-card { background: rgba(255, 255, 255, 0.94); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
     .glass-nav { background: rgba(6, 78, 59, 0.94); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
     .glass-banner { background: rgba(254, 252, 232, 0.92); backdrop-filter: blur(8px); }
     img { content-visibility: auto; }
-
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.92) translateY(20px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
-    }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.92) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
     .animate-modal { animation: modalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
-
-    @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
-    .animate-fade { animation: fadeIn 0.2s ease; }
-
     .role-btn:disabled { opacity: 0.55; cursor: not-allowed; }
   </style>
 </head>
 <body class="text-slate-900 min-h-screen flex flex-col justify-between">
 
-  <!-- 1. WELCOME SCREEN -->
   <div id="welcomeScreen" class="min-h-screen flex items-center justify-center p-4 text-white">
     <div class="max-w-md w-full text-center space-y-6">
       <div class="space-y-3">
@@ -60,10 +41,9 @@
         <div>
           <h1 id="welcomeTitle" class="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md">SVR Food Products</h1>
           <p id="welcomeTagline" class="text-xs text-emerald-200 mt-1 font-semibold drop-shadow-sm">నాణ్యతకు నమ్మకం • రుచికి చిరునామా</p>
-          <p class="text-[10px] text-amber-300 font-bold mt-1">App v2.2</p>
+          <p class="text-[10px] text-amber-300 font-bold mt-1">App v3.0</p>
         </div>
       </div>
-
       <div class="bg-emerald-950/60 backdrop-blur-xl rounded-3xl p-6 border border-emerald-500/30 shadow-2xl text-left space-y-3.5">
         <div class="text-center pb-2">
           <h2 class="text-base font-extrabold text-amber-300">స్వాగతం! Welcome</h2>
@@ -73,7 +53,6 @@
             <span>Connecting to catalog...</span>
           </p>
         </div>
-
         <button id="roleBtnRetail" disabled onclick="selectRole('enduser')" class="role-btn w-full bg-white/95 hover:bg-white text-slate-900 p-4 rounded-2xl shadow-md flex items-center justify-between transition-all transform hover:-translate-y-0.5 group border-2 border-transparent hover:border-emerald-500">
           <div class="flex items-center gap-3.5">
             <span class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center text-xl font-bold">🌾</span>
@@ -84,7 +63,6 @@
           </div>
           <span class="text-emerald-800 font-bold group-hover:translate-x-1 transition text-lg">→</span>
         </button>
-
         <button id="roleBtnHotel" disabled onclick="promptKeyLogin('hotel')" class="role-btn w-full bg-white/95 hover:bg-white text-slate-900 p-4 rounded-2xl shadow-md flex items-center justify-between transition-all transform hover:-translate-y-0.5 group border-2 border-transparent hover:border-emerald-500">
           <div class="flex items-center gap-3.5">
             <span class="w-10 h-10 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center text-xl font-bold">🏨</span>
@@ -95,7 +73,6 @@
           </div>
           <span class="text-emerald-800 font-bold group-hover:translate-x-1 transition text-lg">🔑</span>
         </button>
-
         <button id="roleBtnDist" disabled onclick="promptKeyLogin('distributor')" class="role-btn w-full bg-white/95 hover:bg-white text-slate-900 p-4 rounded-2xl shadow-md flex items-center justify-between transition-all transform hover:-translate-y-0.5 group border-2 border-transparent hover:border-emerald-500">
           <div class="flex items-center gap-3.5">
             <span class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-900 flex items-center justify-center text-xl font-bold">🏢</span>
@@ -107,18 +84,14 @@
           <span class="text-emerald-800 font-bold group-hover:translate-x-1 transition text-lg">🔑</span>
         </button>
       </div>
-
       <button onclick="triggerAppInstall()" class="inline-flex items-center gap-2 text-xs bg-emerald-800/80 hover:bg-emerald-700 text-emerald-100 font-semibold px-4 py-2.5 rounded-xl border border-emerald-400/40 shadow-lg transition">
         <span>📲 Install SVR App on Phone</span>
       </button>
-
       <p class="text-[11px] text-emerald-200/80 font-medium">Sir Arthur Cotton Brand • Duppalapudi (V), E.G. Dist, Godavari</p>
     </div>
   </div>
 
-  <!-- 2. MAIN APP SCREEN -->
   <div id="appScreen" class="hidden flex-col min-h-screen">
-
     <header class="glass-nav text-white sticky top-0 z-30 shadow-lg border-b border-emerald-600/40">
       <div class="max-w-4xl mx-auto px-4 py-2.5 flex justify-between items-center gap-2">
         <div class="flex items-center gap-2.5">
@@ -128,15 +101,11 @@
             <p id="shopTagline" class="text-[11px] text-emerald-200 line-clamp-1">నాణ్యతకు నమ్మకం • రుచికి చిరునామా</p>
           </div>
         </div>
-
         <div class="flex items-center gap-2">
           <button id="headerInstallBtn" onclick="triggerAppInstall()" class="text-xs bg-amber-500 hover:bg-amber-400 text-emerald-950 font-black px-2.5 py-1.5 rounded-xl shadow-xs flex items-center gap-1 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
             <span class="hidden sm:inline">Install</span> App
           </button>
-
           <div class="flex items-center gap-1 bg-emerald-950/90 px-2.5 py-1 rounded-xl border border-emerald-500/40 text-xs">
             <span id="roleBadge" class="font-extrabold uppercase tracking-wider text-amber-300 text-[10px]">RETAIL</span>
             <button onclick="backToWelcome()" class="text-[10px] text-emerald-300 hover:text-white underline ml-1 font-semibold">Change</button>
@@ -149,18 +118,15 @@
       <div id="headerBannerContainer" class="overflow-hidden rounded-2xl shadow-lg bg-emerald-950/40 backdrop-blur-sm">
         <img id="headerBannerImg" src="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/header-banner.jpg" alt="Promotional Banner" class="w-full h-auto block mx-auto">
       </div>
-
       <div class="glass-banner border border-amber-300/80 text-emerald-950 text-xs px-4 py-2.5 rounded-2xl text-center font-bold shadow-md flex items-center justify-center gap-2">
         <span>🥥</span>
         <span id="catalogNoticeText">గోదావరి జిల్లాల స్వచ్ఛమైన నాణ్యత. Select items below and dispatch directly via WhatsApp!</span>
         <span>🌾</span>
       </div>
-
       <div id="loader" class="text-center py-16 hidden">
         <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-amber-400 border-t-transparent mb-3"></div>
         <p class="text-sm font-bold text-white drop-shadow-md">Connecting to SVR Food Products catalog...</p>
       </div>
-
       <div id="catalogGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5"></div>
     </section>
 
@@ -187,7 +153,6 @@
           <span class="text-xs text-emerald-800 font-bold" id="cartReviewCount">0 items</span>
         </div>
         <div id="cartItemsList" class="divide-y text-sm"></div>
-
         <div class="bg-emerald-50/80 p-4 rounded-2xl border border-emerald-200 space-y-2 text-sm mt-3">
           <div class="flex justify-between text-slate-700">
             <span>Items Subtotal:</span><span class="font-bold text-slate-900">₹<span id="subtotalDisplay">0</span></span>
@@ -215,12 +180,38 @@
         </div>
       </div>
 
-      <div class="glass-card rounded-3xl border border-amber-300/80 p-4.5 space-y-1.5">
-        <div class="flex items-center gap-2">
-          <span class="text-base">💳</span>
-          <h4 class="text-xs font-extrabold text-emerald-950 uppercase tracking-wider">Payment & Confirmation</h4>
+      <!-- REDESIGNED PAYMENT SECTION -->
+      <div id="paymentCard" class="rounded-3xl border-2 shadow-lg overflow-hidden">
+        <div id="paymentHeader" class="px-5 py-3 flex items-center gap-3">
+          <div id="paymentIcon" class="w-10 h-10 rounded-full flex items-center justify-center text-xl font-black">💳</div>
+          <div class="flex-1">
+            <h4 id="paymentTitle" class="text-sm font-black uppercase tracking-wider">Payment Mode</h4>
+            <p id="paymentSubtitle" class="text-[11px] font-medium opacity-90">How your order will be settled</p>
+          </div>
         </div>
-        <p id="paymentNoteText" class="text-xs text-slate-700 font-medium leading-relaxed"></p>
+        <div id="paymentBody" class="bg-white/95 backdrop-blur-sm px-5 py-4 space-y-2.5">
+          <div class="flex items-start gap-2.5 text-xs">
+            <span class="text-base leading-none mt-0.5">📋</span>
+            <div>
+              <div class="font-bold text-slate-800" id="paymentModeLabel">Mode</div>
+              <div class="text-slate-600 text-[11px]" id="paymentModeValue">—</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5 text-xs">
+            <span class="text-base leading-none mt-0.5">🚚</span>
+            <div>
+              <div class="font-bold text-slate-800">Delivery</div>
+              <div class="text-slate-600 text-[11px]" id="paymentDeliveryValue">—</div>
+            </div>
+          </div>
+          <div class="flex items-start gap-2.5 text-xs">
+            <span class="text-base leading-none mt-0.5">💡</span>
+            <div>
+              <div class="font-bold text-slate-800">Instruction</div>
+              <div class="text-slate-600 text-[11px]" id="paymentInstructionValue">—</div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <button onclick="sendOrderToWhatsApp()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black py-4 rounded-2xl shadow-xl transition flex items-center justify-center gap-2 text-base border border-emerald-400">
@@ -237,38 +228,30 @@
           <img id="footerBanner2Img" src="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/footer-banner-2.jpg" alt="Footer Quality Banner 2" class="w-full h-auto max-h-72 object-contain mx-auto block" loading="lazy">
         </div>
       </div>
-
       <div class="max-w-4xl mx-auto px-4 pt-8">
         <div class="bg-emerald-900/50 backdrop-blur-sm rounded-2xl border border-emerald-700/60 p-5">
           <div class="text-center mb-4">
             <h4 class="text-sm font-extrabold text-amber-300 uppercase tracking-wider flex items-center justify-center gap-2">
-              <span>🔗</span>
-              <span>Connect With Our Official Channels</span>
-              <span>🔗</span>
+              <span>🔗</span><span>Connect With Our Official Channels</span><span>🔗</span>
             </h4>
             <p class="text-[11px] text-emerald-200/80 mt-1">Follow us for offers, updates & fresh arrivals</p>
           </div>
           <div id="socialLinksGrid" class="flex flex-wrap items-center justify-center gap-2.5"></div>
         </div>
       </div>
-
       <div class="max-w-4xl mx-auto px-4 py-8 space-y-6 text-xs">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div class="space-y-2">
-            <h4 class="font-extrabold text-white text-base tracking-wide flex items-center gap-1.5" id="footerShopTitle">
-              <span>🌴</span> SVR Food Products
-            </h4>
+            <h4 class="font-extrabold text-white text-base tracking-wide flex items-center gap-1.5" id="footerShopTitle"><span>🌴</span> SVR Food Products</h4>
             <p class="text-amber-400 font-bold" id="footerTagline">నాణ్యతకు నమ్మకం • రుచికి చిరునామా</p>
             <p id="footerAddress" class="text-emerald-200/80 leading-relaxed">Duppalapudi (V), E.G. Dist, Andhra Pradesh</p>
           </div>
-
           <div class="space-y-2 sm:text-right">
             <h5 class="font-bold text-amber-300 uppercase tracking-wider text-[11px]">Customer Support</h5>
             <p id="footerPhone" class="text-emerald-100 font-medium text-sm">+91 6301354654</p>
             <p id="footerEmail" class="text-emerald-200/80">support@svrfoods.com</p>
           </div>
         </div>
-
         <div class="border-t border-emerald-900 pt-4 text-center text-emerald-300/60 text-[11px]">
           © <span id="currentYear"></span> SVR Food Products • Sir Arthur Cotton Brand • Duppalapudi, Godavari.
         </div>
@@ -276,7 +259,6 @@
     </footer>
   </div>
 
-  <!-- 3. DELIVERY ADDRESS MODAL -->
   <div id="deliveryModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50 overflow-y-auto">
     <div class="glass-card rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl my-8 border border-white animate-modal">
       <div class="flex justify-between items-center border-b pb-3">
@@ -286,7 +268,6 @@
         </div>
         <button onclick="closeDeliveryModal()" class="text-slate-400 hover:text-slate-600 text-sm font-bold">✕</button>
       </div>
-
       <form id="addressForm" onsubmit="saveDeliveryDetails(event)" class="space-y-3 text-xs">
         <div>
           <label class="font-bold text-slate-700 block mb-1">State *</label>
@@ -295,7 +276,6 @@
           </select>
           <input type="text" id="otherStateInput" placeholder="Enter your state name" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs mt-1.5 hidden">
         </div>
-
         <div>
           <label class="font-bold text-slate-700 block mb-1">District *</label>
           <select id="districtSelect" onchange="handleDistrictChange()" class="w-full border p-2.5 rounded-xl bg-white outline-emerald-700 text-xs font-semibold" required>
@@ -303,49 +283,21 @@
           </select>
           <input type="text" id="otherDistrictInput" placeholder="Enter your district name" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs mt-1.5 hidden">
         </div>
-
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Mandal *</label>
-            <input type="text" id="mandalInput" placeholder="e.g. Rajahmundry Rural" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required>
-          </div>
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Village / Town *</label>
-            <input type="text" id="villageInput" placeholder="e.g. Duppalapudi" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required>
-          </div>
+          <div><label class="font-bold text-slate-700 block mb-1">Mandal *</label><input type="text" id="mandalInput" placeholder="e.g. Rajahmundry Rural" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required></div>
+          <div><label class="font-bold text-slate-700 block mb-1">Village / Town *</label><input type="text" id="villageInput" placeholder="e.g. Duppalapudi" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required></div>
         </div>
-
-        <div>
-          <label id="roleNameLabel" class="font-bold text-slate-700 block mb-1">Full Name *</label>
-          <input type="text" id="roleNameInput" placeholder="Enter name" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs font-medium" required>
-        </div>
-
-        <div>
-          <label class="font-bold text-slate-700 block mb-1">Door No & Street Address *</label>
-          <textarea id="streetAddressInput" rows="2" placeholder="House/Shop No, Street, Landmark details" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required></textarea>
-        </div>
-
+        <div><label id="roleNameLabel" class="font-bold text-slate-700 block mb-1">Full Name *</label><input type="text" id="roleNameInput" placeholder="Enter name" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs font-medium" required></div>
+        <div><label class="font-bold text-slate-700 block mb-1">Door No & Street Address *</label><textarea id="streetAddressInput" rows="2" placeholder="House/Shop No, Street, Landmark details" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required></textarea></div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Landmark *</label>
-            <input type="text" id="landmarkInput" placeholder="e.g. Near Water Tank" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required>
-          </div>
-          <div>
-            <label class="font-bold text-slate-700 block mb-1">Pincode *</label>
-            <input type="text" id="pincodeInput" placeholder="6-digit pincode" pattern="[0-9]{6}" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required>
-          </div>
+          <div><label class="font-bold text-slate-700 block mb-1">Landmark *</label><input type="text" id="landmarkInput" placeholder="e.g. Near Water Tank" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required></div>
+          <div><label class="font-bold text-slate-700 block mb-1">Pincode *</label><input type="text" id="pincodeInput" placeholder="6-digit pincode" pattern="[0-9]{6}" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required></div>
         </div>
-
-        <div>
-          <label class="font-bold text-slate-700 block mb-1">WhatsApp Phone Number *</label>
-          <input type="tel" id="contactNumberInput" placeholder="10-digit mobile number" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs font-medium" required>
-        </div>
-
+        <div><label class="font-bold text-slate-700 block mb-1">WhatsApp Phone Number *</label><input type="tel" id="contactNumberInput" placeholder="10-digit mobile number" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs font-medium" required></div>
         <div id="modalScheduleBox" class="hidden">
           <label class="font-bold text-slate-700 block mb-1">Preferred Delivery Schedule (Doorstep):</label>
           <input type="text" id="modalScheduleInput" placeholder="e.g. Tomorrow 8:00 AM" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs">
         </div>
-
         <div class="flex justify-end gap-2 pt-3 border-t">
           <button type="button" onclick="closeDeliveryModal()" class="px-4 py-2 text-xs font-semibold text-slate-600">Cancel</button>
           <button type="submit" class="px-5 py-2.5 text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white rounded-xl transition shadow-md">Save Address</button>
@@ -354,7 +306,6 @@
     </div>
   </div>
 
-  <!-- 4. KEY LOGIN MODAL (Redesigned) -->
   <div id="keyModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50">
     <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-white overflow-hidden animate-modal">
       <div class="bg-gradient-to-r from-emerald-800 to-emerald-900 px-6 py-5 text-white">
@@ -369,40 +320,26 @@
           <button onclick="toggleKeyModal()" class="w-8 h-8 rounded-full bg-emerald-950/40 hover:bg-emerald-950/70 text-white font-bold flex items-center justify-center transition">✕</button>
         </div>
       </div>
-
       <div class="p-6 space-y-4">
-        <p class="text-xs text-slate-600 leading-relaxed" id="keyModalSubtitle">
-          Enter your secret passkey to unlock partner pricing.
-        </p>
-
+        <p class="text-xs text-slate-600 leading-relaxed" id="keyModalSubtitle">Enter your secret passkey to unlock partner pricing.</p>
         <div class="relative">
-          <input type="password" id="keyInput" placeholder="Enter passkey" autocomplete="off" autocapitalize="none"
-            class="w-full border-2 border-emerald-200 focus:border-emerald-600 p-4 pr-14 rounded-2xl text-base outline-none font-bold tracking-widest text-center bg-emerald-50/50 transition placeholder:tracking-normal placeholder:font-normal placeholder:text-sm" />
-          <button type="button" onclick="toggleKeyVisibility()" id="keyEyeBtn" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full hover:bg-emerald-100 text-emerald-700 flex items-center justify-center transition text-lg">
-            👁️
-          </button>
+          <input type="password" id="keyInput" placeholder="Enter passkey" autocomplete="off" autocapitalize="none" class="w-full border-2 border-emerald-200 focus:border-emerald-600 p-4 pr-14 rounded-2xl text-base outline-none font-bold tracking-widest text-center bg-emerald-50/50 transition placeholder:tracking-normal placeholder:font-normal placeholder:text-sm" />
+          <button type="button" onclick="toggleKeyVisibility()" id="keyEyeBtn" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full hover:bg-emerald-100 text-emerald-700 flex items-center justify-center transition text-lg">👁️</button>
         </div>
-
         <p id="keyErrorMsg" class="text-xs text-red-600 font-bold hidden items-center gap-1.5 bg-red-50 border border-red-200 p-3 rounded-xl">
           <span>⚠️</span><span id="keyErrorText"></span>
         </p>
-
         <div class="flex gap-2 pt-1">
-          <button onclick="toggleKeyModal()" class="flex-1 px-4 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-2xl transition">
-            Cancel
-          </button>
+          <button onclick="toggleKeyModal()" class="flex-1 px-4 py-3 text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-2xl transition">Cancel</button>
           <button onclick="verifyKey()" id="keySubmitBtn" class="flex-1 px-4 py-3 text-sm font-black bg-emerald-800 hover:bg-emerald-900 text-white rounded-2xl transition shadow-lg flex items-center justify-center gap-2 disabled:opacity-60">
-            <span id="keySubmitText">Unlock</span>
-            <span id="keySubmitIcon">→</span>
+            <span id="keySubmitText">Unlock</span><span id="keySubmitIcon">→</span>
           </button>
         </div>
-
         <p class="text-[10px] text-center text-slate-400 pt-1">Contact SVR Foods for access keys</p>
       </div>
     </div>
   </div>
 
-  <!-- 5. PRODUCT DETAILS MODAL -->
   <div id="productDetailModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50 overflow-y-auto">
     <div class="glass-card rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-white relative my-8 animate-modal">
       <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 flex items-center justify-center font-bold">✕</button>
@@ -431,7 +368,6 @@
     </div>
   </div>
 
-  <!-- 6. INSTALL GUIDE MODAL -->
   <div id="installGuideModal" class="fixed inset-0 bg-emerald-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden z-50">
     <div class="glass-card rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl text-center border border-white animate-modal">
       <div class="w-14 h-14 bg-amber-100 text-amber-900 rounded-2xl mx-auto flex items-center justify-center text-2xl font-bold">📲</div>
@@ -447,22 +383,29 @@
 
   <script>
     const API_URL = "https://script.google.com/macros/s/AKfycbxOsf9j-aHbMLszsDsWpyC4zxMYHcfMUROQ31aHawxmGp6FzUCLIj0OK8rMAkxmljXSNw/exec";
-
     const GITHUB_USER = "svrcotton";
     const GITHUB_REPO = "orderonline";
     const GITHUB_BRANCH = "main";
     const CDN = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}@${GITHUB_BRANCH}`;
-
     const WHATSAPP_NUMBER = "918603095167";
     const FREE_DELIVERY_THRESHOLD = 1000;
     const DELIVERY_CHARGE = 60;
     const CACHE_KEY = 'svr_catalog_cache_v1';
-    const CACHE_TTL_MS = 1000 * 60 * 60 * 6; // 6 hours
+    const CACHE_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
 
     const PAYMENT_RULES = {
-      distributor: { mode: "COD", status: "Free Door Delivery", note: "Payment upon delivery" },
-      hotel:       { mode: "COD", status: "Free Door Delivery", note: "Payment upon delivery" },
-      enduser:     { mode: "UPI", status: "Dispatch after Payment", note: "UPI payment required before dispatch" }
+      distributor: { icon: "🚚", color: "emerald", title: "Cash on Delivery", mode: "COD — Pay on Delivery", delivery: "Free Door Delivery", instruction: "Pay when the goods arrive at your doorstep." },
+      hotel:       { icon: "🚚", color: "amber",   title: "Cash on Delivery", mode: "COD — Pay on Delivery", delivery: "Free Door Delivery", instruction: "Pay when the goods arrive at your doorstep." },
+      enduser:     { icon: "📱", color: "emerald", title: "UPI Payment",      mode: "UPI — Advance Payment", delivery: "Dispatch after Payment", instruction: "We'll share our UPI QR code on WhatsApp. Send payment screenshot to confirm the order." }
+    };
+
+    const DEFAULT_LOCATIONS = {
+      "Andhra Pradesh": ["Alluri Sitharama Raju","Anakapalli","Ananthapuramu","Annamayya","Bapatla","Chittoor","Dr. B.R. Ambedkar Konaseema","East Godavari","Eluru","Guntur","Kakinada","Krishna","Kurnool","Nandyal","NTR","Palnadu","Prakasam","Sri Potti Sriramulu Nellore","Sri Sathya Sai","Srikakulam","Tirupati","Visakhapatnam","Vizianagaram","West Godavari","YSR Kadapa"],
+      "Telangana": ["Adilabad","Bhadradri Kothagudem","Hyderabad","Jagtial","Jangaon","Jayashankar Bhupalpally","Jogulamba Gadwal","Kamareddy","Karimnagar","Khammam","Kumuram Bheem Asifabad","Mahabubabad","Mahabubnagar","Mancherial","Medak","Medchal–Malkajgiri","Mulugu","Nagarkurnool","Nalgonda","Narayanpet","Nirmal","Nizamabad","Peddapalli","Rajanna Sircilla","Rangareddy","Sangareddy","Siddipet","Suryapet","Vikarabad","Wanaparthy","Warangal","Hanamkonda","Yadadri Bhuvanagiri"],
+      "Karnataka": ["Bengaluru Rural","Mysuru","Ballari","Other"],
+      "Tamil Nadu": ["Chennai","Coimbatore","Madurai","Other"],
+      "Odisha": ["Ganjam","Khordha","Koraput","Other"],
+      "Other State": ["Other District"]
     };
 
     const DEFAULT_SOCIAL_LINKS = [
@@ -484,16 +427,11 @@
     let dataReady = false;
 
     document.getElementById('currentYear').innerText = new Date().getFullYear();
-
     window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
 
     function triggerAppInstall() {
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
-      } else {
-        toggleInstallGuide();
-      }
+      if (deferredPrompt) { deferredPrompt.prompt(); deferredPrompt.userChoice.then(() => { deferredPrompt = null; }); }
+      else { toggleInstallGuide(); }
     }
     function toggleInstallGuide() { document.getElementById('installGuideModal').classList.toggle('hidden'); }
 
@@ -503,44 +441,36 @@
       if (match && match[1]) return 'https://drive.google.com/thumbnail?id=' + match[1] + '&sz=w800';
       return rawUrl;
     }
-
     function getProductImage(product) { return `${CDN}/products/${product.id}.jpg`; }
     function getProductFallbackImage(product) { return formatDriveUrl(product.image) || 'https://placehold.co/400x400?text=SVR'; }
-
     function getProductPrice(prod) {
       if (role === 'distributor') return Number(prod.dist_price) || 0;
       if (role === 'hotel') return Number(prod.hotel_price) || 0;
       return Number(prod.retail_price) || 0;
     }
 
-    /* ========== CACHE HELPERS ========== */
     function saveToCache() {
       try {
-        localStorage.setItem(CACHE_KEY, JSON.stringify({
-          ts: Date.now(),
-          settings: storeSettings,
-          products: products,
-          locations: locations,
-          social_links: socialLinks
-        }));
+        localStorage.setItem(CACHE_KEY, JSON.stringify({ ts: Date.now(), settings: storeSettings, products: products, locations: locations, social_links: socialLinks }));
       } catch (e) { console.warn('Cache save failed', e); }
     }
 
-    function loadFromCache() {
+    function loadFromCache(allowStale = false) {
       try {
         const raw = localStorage.getItem(CACHE_KEY);
         if (!raw) return false;
         const data = JSON.parse(raw);
-        if (!data || Date.now() - data.ts > CACHE_TTL_MS) return false;
+        if (!data) return false;
+        const isFresh = (Date.now() - data.ts) <= CACHE_TTL_MS;
+        if (!isFresh && !allowStale) return false;
         storeSettings = data.settings || {};
         products = data.products || [];
         locations = data.locations || {};
         socialLinks = data.social_links || [];
-        return true;
+        return isFresh;
       } catch (e) { return false; }
     }
 
-    /* ========== ROLE BUTTONS ========== */
     function enableRoleButtons() {
       ['roleBtnRetail', 'roleBtnHotel', 'roleBtnDist'].forEach(id => {
         const el = document.getElementById(id);
@@ -550,10 +480,8 @@
       if (notice) notice.classList.add('hidden');
     }
 
-    /* ========== INIT ========== */
     async function init() {
-      // 1. Try cache first (instant render for repeat visits)
-      const hadCache = loadFromCache();
+      const hadCache = loadFromCache(true);
       if (hadCache && products.length > 0) {
         dataReady = true;
         applySettings();
@@ -562,30 +490,31 @@
         enableRoleButtons();
       }
 
-      // 2. Fetch fresh data
       try {
         const res = await fetch(`${API_URL}?action=getStoreData`, { cache: "no-store" });
         const json = await res.json();
         if (json.status === 'success') {
           storeSettings = json.settings || {};
           products = (json.products || []).filter(p => String(p.active).toUpperCase() !== 'FALSE');
-          locations = json.locations || {};
+          locations = (json.locations && Object.keys(json.locations).length > 0) ? json.locations : DEFAULT_LOCATIONS;
           socialLinks = (json.social_links && json.social_links.length > 0) ? json.social_links : [];
           applySettings();
           populateStates();
           renderSocialLinks();
           saveToCache();
+        } else {
+          if (!hadCache) locations = DEFAULT_LOCATIONS;
+          populateStates();
         }
       } catch (err) {
         console.error("Failed to load store data", err);
-        if (!hadCache) {
-          showToast("Could not load catalog. Check your internet.");
-        }
+        if (!hadCache) { locations = DEFAULT_LOCATIONS; populateStates(); showToast("Could not load catalog. Check your internet."); }
       }
-
       dataReady = true;
       enableRoleButtons();
       renderSocialLinks();
+      if (!locations || Object.keys(locations).length === 0) locations = DEFAULT_LOCATIONS;
+      populateStates();
       document.getElementById('loader').classList.add('hidden');
     }
 
@@ -609,24 +538,15 @@
       const container = document.getElementById('socialLinksGrid');
       if (!container) return;
       container.innerHTML = '';
-
-      const iconBadges = {
-        'whatsapp': '💬 WhatsApp', 'instagram': '📸 Instagram',
-        'facebook': '👍 Facebook', 'youtube': '▶️ YouTube', 'website': '🌐 Website'
-      };
-
+      const iconBadges = { 'whatsapp': '💬 WhatsApp', 'instagram': '📸 Instagram', 'facebook': '👍 Facebook', 'youtube': '▶️ YouTube', 'website': '🌐 Website' };
       const list = (socialLinks && socialLinks.length > 0) ? socialLinks : DEFAULT_SOCIAL_LINKS;
-
       list.forEach(link => {
         const platKey = String(link.platform || link.Platform || '').trim().toLowerCase();
         const label = iconBadges[platKey] || link.platform || 'Link';
         let href = link.url || link.URL || '#';
         if (platKey === 'whatsapp') href = `https://wa.me/${WHATSAPP_NUMBER}`;
-
         const a = document.createElement('a');
-        a.href = href;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
+        a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer";
         a.className = "px-3.5 py-2 rounded-xl bg-emerald-900 hover:bg-emerald-800 text-emerald-100 hover:text-white font-semibold text-xs border border-emerald-700 shadow-xs transition inline-flex items-center gap-1.5";
         a.innerHTML = label;
         container.appendChild(a);
@@ -634,36 +554,15 @@
     }
 
     function selectRole(selectedRole) {
-      if (!dataReady && products.length === 0) {
-        showToast('Catalog is still loading, please wait...');
-        return;
-      }
-      if (products.length === 0) {
-        showToast('No products available. Please try again later.');
-        return;
-      }
-
+      if (products.length === 0) { showToast('Catalog is still loading, please wait...'); return; }
       role = selectedRole;
       document.getElementById('roleBadge').innerText = role === 'enduser' ? 'RETAIL' : role.toUpperCase();
-
       const nameLabel = document.getElementById('roleNameLabel');
       const nameInput = document.getElementById('roleNameInput');
       const schedBox = document.getElementById('modalScheduleBox');
-
-      if (role === 'distributor') {
-        nameLabel.innerText = "Distributor Name *";
-        nameInput.placeholder = "Enter distributor / agency name";
-        schedBox.classList.remove('hidden');
-      } else if (role === 'hotel') {
-        nameLabel.innerText = "Hotel / Restaurant Name *";
-        nameInput.placeholder = "Enter hotel or restaurant name";
-        schedBox.classList.remove('hidden');
-      } else {
-        nameLabel.innerText = "Full Name *";
-        nameInput.placeholder = "Enter your full name";
-        schedBox.classList.add('hidden');
-      }
-
+      if (role === 'distributor') { nameLabel.innerText = "Distributor Name *"; nameInput.placeholder = "Enter distributor / agency name"; schedBox.classList.remove('hidden'); }
+      else if (role === 'hotel') { nameLabel.innerText = "Hotel / Restaurant Name *"; nameInput.placeholder = "Enter hotel or restaurant name"; schedBox.classList.remove('hidden'); }
+      else { nameLabel.innerText = "Full Name *"; nameInput.placeholder = "Enter your full name"; schedBox.classList.add('hidden'); }
       document.getElementById('welcomeScreen').classList.add('hidden');
       document.getElementById('appScreen').classList.remove('hidden');
       document.getElementById('appScreen').classList.add('flex');
@@ -673,9 +572,7 @@
 
     function promptKeyLogin(intendedRole) {
       const title = intendedRole === 'hotel' ? 'Hotel / Restaurant Access' : 'Distributor Wholesaler Access';
-      const sub = intendedRole === 'hotel'
-        ? 'Enter your hotel passkey to unlock wholesale pricing.'
-        : 'Enter your distributor passkey to unlock dealership pricing.';
+      const sub = intendedRole === 'hotel' ? 'Enter your hotel passkey to unlock wholesale pricing.' : 'Enter your distributor passkey to unlock dealership pricing.';
       document.getElementById('keyModalTitle').innerText = title;
       document.getElementById('keyModalSubtitle').innerText = sub;
       document.getElementById('keyInput').value = '';
@@ -712,7 +609,6 @@
     async function verifyKey() {
       const keyVal = document.getElementById('keyInput').value.trim();
       if (!keyVal) { showKeyError('Please enter your passkey.'); return; }
-
       const btn = document.getElementById('keySubmitBtn');
       const btnText = document.getElementById('keySubmitText');
       const btnIcon = document.getElementById('keySubmitIcon');
@@ -720,23 +616,13 @@
       btnText.innerText = 'Verifying';
       btnIcon.innerHTML = '<span class="inline-block animate-spin rounded-full h-3.5 w-3.5 border-2 border-white border-t-transparent"></span>';
       document.getElementById('keyErrorMsg').classList.add('hidden');
-
       try {
         const res = await fetch(`${API_URL}?action=verifyKey&key=${encodeURIComponent(keyVal)}`);
         const json = await res.json();
-        if (json.status === 'success') {
-          toggleKeyModal();
-          selectRole(json.role);
-        } else {
-          showKeyError('Invalid passkey. Please check and try again.');
-        }
-      } catch (err) {
-        showKeyError('Connection error. Check your internet.');
-      } finally {
-        btn.disabled = false;
-        btnText.innerText = 'Unlock';
-        btnIcon.innerText = '→';
-      }
+        if (json.status === 'success') { toggleKeyModal(); selectRole(json.role); }
+        else { showKeyError('Invalid passkey. Please check and try again.'); }
+      } catch (err) { showKeyError('Connection error. Check your internet.'); }
+      finally { btn.disabled = false; btnText.innerText = 'Unlock'; btnIcon.innerText = '→'; }
     }
 
     function goToCartPage() {
@@ -748,7 +634,6 @@
       window.scrollTo(0, 0);
       renderCartReview();
     }
-
     function goToCatalogPage() {
       document.getElementById('checkoutView').classList.add('hidden');
       document.getElementById('catalogView').classList.remove('hidden');
@@ -759,17 +644,20 @@
     function populateStates() {
       const stateSel = document.getElementById('stateSelect');
       if (!stateSel) return;
+      const current = stateSel.value;
       stateSel.innerHTML = '<option value="">-- Select State --</option>';
-      const states = Object.keys(locations);
-      states.forEach(s => {
+      let locs = locations;
+      if (!locs || Object.keys(locs).length === 0) locs = DEFAULT_LOCATIONS;
+      Object.keys(locs).forEach(s => {
         const opt = document.createElement('option');
         opt.value = s; opt.innerText = s;
         stateSel.appendChild(opt);
       });
-      if (!states.includes("Other State")) {
+      if (!Object.keys(locs).includes("Other State")) {
         const o = document.createElement('option'); o.value = "Other State"; o.innerText = "Other State";
         stateSel.appendChild(o);
       }
+      if (current) stateSel.value = current;
     }
 
     function handleStateChange() {
@@ -779,7 +667,6 @@
       const otherDistInput = document.getElementById('otherDistrictInput');
       const selectedState = stateSel.value;
       distSel.innerHTML = '<option value="">-- Select District --</option>';
-
       if (selectedState === 'Other State' || selectedState === 'Other') {
         otherStateInput.classList.remove('hidden'); otherStateInput.required = true;
         distSel.innerHTML = '<option value="Other">Other District</option>';
@@ -789,10 +676,10 @@
         otherStateInput.classList.add('hidden'); otherStateInput.required = false;
         otherDistInput.classList.add('hidden'); otherDistInput.required = false;
       }
-
-      let distList = locations[selectedState] || [];
+      let locs = locations;
+      if (!locs || Object.keys(locs).length === 0) locs = DEFAULT_LOCATIONS;
+      let distList = locs[selectedState] || [];
       if (!Array.isArray(distList)) distList = Object.keys(distList);
-
       distList.forEach(d => {
         const opt = document.createElement('option');
         opt.value = d; opt.innerText = d;
@@ -815,13 +702,8 @@
 
     function saveDeliveryDetails(e) {
       e.preventDefault();
-      const stateVal = document.getElementById('stateSelect').value === 'Other State'
-        ? document.getElementById('otherStateInput').value.trim()
-        : document.getElementById('stateSelect').value;
-      const distVal = document.getElementById('districtSelect').value === 'Other'
-        ? document.getElementById('otherDistrictInput').value.trim()
-        : document.getElementById('districtSelect').value;
-
+      const stateVal = document.getElementById('stateSelect').value === 'Other State' ? document.getElementById('otherStateInput').value.trim() : document.getElementById('stateSelect').value;
+      const distVal = document.getElementById('districtSelect').value === 'Other' ? document.getElementById('otherDistrictInput').value.trim() : document.getElementById('districtSelect').value;
       deliveryInfo = {
         state: stateVal, district: distVal,
         mandal: document.getElementById('mandalInput').value.trim(),
@@ -833,7 +715,6 @@
         contact: document.getElementById('contactNumberInput').value.trim(),
         schedule: document.getElementById('modalScheduleInput').value.trim()
       };
-
       const summaryDiv = document.getElementById('savedAddressSummary');
       summaryDiv.innerHTML = `
         <div class="font-extrabold text-emerald-950 text-sm">${deliveryInfo.name} (${deliveryInfo.contact})</div>
@@ -854,7 +735,6 @@
       const mrp = Number(prod.mrp) || price;
       const discount = (mrp > price) ? Math.round(((mrp - price) / mrp) * 100) : 0;
       const qty = cart[id] || 0;
-
       const imgEl = document.getElementById('detailImg');
       imgEl.src = getProductImage(prod);
       imgEl.onerror = function() { this.onerror = null; this.src = getProductFallbackImage(prod); };
@@ -862,19 +742,14 @@
       document.getElementById('detailName').innerText = prod.name;
       document.getElementById('detailPack').innerText = `Pack Size: ${prod.pack_size}`;
       document.getElementById('detailPrice').innerText = `₹${price}`;
-
       const mrpEl = document.getElementById('detailMRP');
       const badgeEl = document.getElementById('detailBadge');
       const savingsEl = document.getElementById('detailSavings');
-
       if (discount > 0) {
         mrpEl.innerText = `₹${mrp}`; mrpEl.classList.remove('hidden');
         badgeEl.innerText = `${discount}% OFF`; badgeEl.classList.remove('hidden');
         savingsEl.innerText = `Save ₹${mrp - price}`;
-      } else {
-        mrpEl.classList.add('hidden'); badgeEl.classList.add('hidden'); savingsEl.innerText = '';
-      }
-
+      } else { mrpEl.classList.add('hidden'); badgeEl.classList.add('hidden'); savingsEl.innerText = ''; }
       const actionBox = document.getElementById('detailActionBox');
       if (qty === 0) {
         actionBox.innerHTML = `<button onclick="addToCart('${prod.id}'); viewProductDetail('${prod.id}');" class="w-full bg-emerald-800 hover:bg-emerald-900 text-white font-extrabold py-3.5 rounded-xl transition shadow-md flex items-center justify-center gap-2"><span>+ Add to Cart</span></button>`;
@@ -887,18 +762,13 @@
       }
       document.getElementById('productDetailModal').classList.remove('hidden');
     }
-
     function closeProductDetailModal() { document.getElementById('productDetailModal').classList.add('hidden'); }
 
     function renderCatalog() {
       const grid = document.getElementById('catalogGrid');
       grid.innerHTML = '';
       if (!products.length) {
-        grid.innerHTML = `<div class="col-span-full text-center text-white font-semibold py-10 bg-emerald-950/60 rounded-2xl backdrop-blur-md p-6">
-          <div class="text-3xl mb-2">🔄</div>
-          <div>No products available right now.</div>
-          <div class="text-xs text-emerald-200 mt-2">Please refresh the page in a moment.</div>
-        </div>`;
+        grid.innerHTML = `<div class="col-span-full text-center text-white font-semibold py-10 bg-emerald-950/60 rounded-2xl backdrop-blur-md p-6"><div class="text-3xl mb-2">🔄</div><div>No products available right now.</div><div class="text-xs text-emerald-200 mt-2">Please refresh the page in a moment.</div></div>`;
         return;
       }
       products.forEach(p => {
@@ -906,7 +776,6 @@
         const mrp = Number(p.mrp) || currentPrice;
         const qty = cart[p.id] || 0;
         const discountPct = (mrp > currentPrice) ? Math.round(((mrp - currentPrice) / mrp) * 100) : 0;
-
         const card = document.createElement('div');
         card.className = "glass-card rounded-3xl border border-white/80 overflow-hidden shadow-lg hover:shadow-2xl transition-all flex flex-col justify-between group";
         card.innerHTML = `
@@ -945,7 +814,6 @@
     }
 
     function addToCart(id) { cart[id] = 1; renderCatalog(); }
-
     function updateQty(id, delta) {
       cart[id] = (cart[id] || 0) + delta;
       if (cart[id] <= 0) delete cart[id];
@@ -968,6 +836,30 @@
       } else { floatBar.classList.add('hidden'); }
     }
 
+    function updatePaymentCard() {
+      const rule = PAYMENT_RULES[role] || PAYMENT_RULES.enduser;
+      const card = document.getElementById('paymentCard');
+      const header = document.getElementById('paymentHeader');
+      const icon = document.getElementById('paymentIcon');
+      const title = document.getElementById('paymentTitle');
+
+      if (rule.color === 'amber') {
+        header.className = "px-5 py-3 flex items-center gap-3 bg-gradient-to-r from-amber-400 to-amber-500 text-amber-950";
+        card.className = "rounded-3xl border-2 border-amber-500 shadow-lg overflow-hidden";
+        icon.className = "w-10 h-10 rounded-full flex items-center justify-center text-xl font-black bg-amber-950 text-amber-300";
+      } else {
+        header.className = "px-5 py-3 flex items-center gap-3 bg-gradient-to-r from-emerald-700 to-emerald-800 text-white";
+        card.className = "rounded-3xl border-2 border-emerald-600 shadow-lg overflow-hidden";
+        icon.className = "w-10 h-10 rounded-full flex items-center justify-center text-xl font-black bg-emerald-950 text-amber-300";
+      }
+
+      icon.innerText = rule.icon;
+      title.innerText = rule.title;
+      document.getElementById('paymentModeValue').innerText = rule.mode;
+      document.getElementById('paymentDeliveryValue').innerText = rule.delivery;
+      document.getElementById('paymentInstructionValue').innerText = rule.instruction;
+    }
+
     function renderCartReview() {
       const container = document.getElementById('cartItemsList');
       const itemKeys = Object.keys(cart);
@@ -977,7 +869,6 @@
       if (itemKeys.length === 0) { goToCatalogPage(); return; }
       container.innerHTML = '';
       let subtotal = 0;
-
       itemKeys.forEach(id => {
         const prod = products.find(p => p.id === id);
         if (!prod) return;
@@ -986,17 +877,7 @@
         subtotal += total;
         const row = document.createElement('div');
         row.className = "flex justify-between items-center py-3";
-        row.innerHTML = `
-          <div>
-            <div class="font-extrabold text-slate-800 text-sm">${prod.name}</div>
-            <div class="text-xs text-slate-500">${prod.pack_size} • ₹${price} × ${cart[id]}</div>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="updateQty('${id}', -1)" class="w-7 h-7 rounded-lg bg-emerald-100 hover:bg-emerald-200 text-xs font-black flex items-center justify-center">-</button>
-            <span class="w-5 text-center text-xs font-bold text-emerald-950">${cart[id]}</span>
-            <button onclick="updateQty('${id}', 1)" class="w-7 h-7 rounded-lg bg-emerald-100 hover:bg-emerald-200 text-xs font-black flex items-center justify-center">+</button>
-            <span class="w-16 text-right font-black text-xs text-slate-900">₹${total}</span>
-          </div>`;
+        row.innerHTML = `<div><div class="font-extrabold text-slate-800 text-sm">${prod.name}</div><div class="text-xs text-slate-500">${prod.pack_size} • ₹${price} × ${cart[id]}</div></div><div class="flex items-center gap-2"><button onclick="updateQty('${id}', -1)" class="w-7 h-7 rounded-lg bg-emerald-100 hover:bg-emerald-200 text-xs font-black flex items-center justify-center">-</button><span class="w-5 text-center text-xs font-bold text-emerald-950">${cart[id]}</span><button onclick="updateQty('${id}', 1)" class="w-7 h-7 rounded-lg bg-emerald-100 hover:bg-emerald-200 text-xs font-black flex items-center justify-center">+</button><span class="w-16 text-right font-black text-xs text-slate-900">₹${total}</span></div>`;
         container.appendChild(row);
       });
 
@@ -1017,8 +898,7 @@
         document.getElementById('deliveryTerms').innerText = "Free scheduled doorstep delivery for hotel & distributor partners.";
       }
 
-      const rule = PAYMENT_RULES[role] || PAYMENT_RULES.enduser;
-      document.getElementById('paymentNoteText').innerHTML = `<strong>${rule.status}:</strong> ${rule.note}.`;
+      updatePaymentCard();
       document.getElementById('subtotalDisplay').innerText = subtotal;
       document.getElementById('grandTotalDisplay').innerText = subtotal + deliveryFee;
     }
@@ -1027,7 +907,6 @@
       const itemKeys = Object.keys(cart);
       if (itemKeys.length === 0) { showToast('Your cart is empty.'); return; }
       if (!deliveryInfo) { showToast('Please fill out your delivery address first.'); openDeliveryModal(); return; }
-
       let subtotal = 0;
       let orderItemsText = "";
       itemKeys.forEach(id => {
@@ -1037,46 +916,18 @@
         subtotal += lineTotal;
         orderItemsText += `• ${prod.name} (${prod.pack_size}) x ${cart[id]} = ₹${lineTotal}\n`;
       });
-
       let deliveryFee = 0;
-      if (role === 'enduser') {
-        deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_CHARGE;
-      }
-
+      if (role === 'enduser') { deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_CHARGE; }
       const grandTotal = subtotal + deliveryFee;
       const roleTitle = role === 'distributor' ? 'DISTRIBUTOR' : (role === 'hotel' ? 'HOTEL / RESTAURANT' : 'RETAIL CUSTOMER');
-
-      let msg = `*NEW ORDER - SVR FOOD PRODUCTS (గోదావరి)*\n`;
-      msg += `============================\n`;
-      msg += `*Order Type:* ${roleTitle}\n`;
-      msg += `*Name:* ${deliveryInfo.name}\n`;
-      msg += `*Contact:* ${deliveryInfo.contact}\n`;
-      msg += `----------------------------\n`;
-      msg += `*DELIVERY ADDRESS:*\n`;
-      msg += `*Street/Door:* ${deliveryInfo.streetAddress}\n`;
-      msg += `*Landmark:* ${deliveryInfo.landmark}\n`;
-      msg += `*Village/Town:* ${deliveryInfo.village}\n`;
-      msg += `*Mandal:* ${deliveryInfo.mandal}\n`;
-      msg += `*District:* ${deliveryInfo.district}\n`;
-      msg += `*State:* ${deliveryInfo.state} - ${deliveryInfo.pincode}\n`;
-      if (deliveryInfo.schedule && (role === 'hotel' || role === 'distributor')) {
-        msg += `*Requested Slot:* ${deliveryInfo.schedule}\n`;
-      }
-      msg += `============================\n`;
-      msg += `*ITEMS ORDERED:*\n${orderItemsText}`;
-      msg += `============================\n`;
-      msg += `*Subtotal:* ₹${subtotal}\n`;
-      msg += `*Delivery:* ${deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee}\n`;
-      msg += `*Total Amount:* ₹${grandTotal}\n`;
-      msg += `============================\n`;
-      if (role === 'enduser') {
-        msg += `👉 _Please share your UPI Payment QR. I will complete payment for order dispatch._`;
-      } else {
-        msg += `👉 _Payment mode: Payment upon delivery. Kindly confirm scheduled dispatch._`;
-      }
-
-      const waURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
-      window.open(waURL, '_blank');
+      let msg = `*NEW ORDER - SVR FOOD PRODUCTS (గోదావరి)*\n============================\n`;
+      msg += `*Order Type:* ${roleTitle}\n*Name:* ${deliveryInfo.name}\n*Contact:* ${deliveryInfo.contact}\n----------------------------\n*DELIVERY ADDRESS:*\n`;
+      msg += `*Street/Door:* ${deliveryInfo.streetAddress}\n*Landmark:* ${deliveryInfo.landmark}\n*Village/Town:* ${deliveryInfo.village}\n*Mandal:* ${deliveryInfo.mandal}\n*District:* ${deliveryInfo.district}\n*State:* ${deliveryInfo.state} - ${deliveryInfo.pincode}\n`;
+      if (deliveryInfo.schedule && (role === 'hotel' || role === 'distributor')) { msg += `*Requested Slot:* ${deliveryInfo.schedule}\n`; }
+      msg += `============================\n*ITEMS ORDERED:*\n${orderItemsText}============================\n`;
+      msg += `*Subtotal:* ₹${subtotal}\n*Delivery:* ${deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee}\n*Total Amount:* ₹${grandTotal}\n============================\n`;
+      msg += role === 'enduser' ? `👉 _Please share your UPI Payment QR. I will complete payment for order dispatch._` : `👉 _Payment mode: Payment upon delivery. Kindly confirm scheduled dispatch._`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 
     function showToast(message) {
@@ -1092,7 +943,6 @@
       setTimeout(() => { toast.classList.remove('opacity-100'); toast.classList.add('opacity-0'); }, 3000);
     }
 
-    // Enter key on passkey input
     document.getElementById('keyInput').addEventListener('keypress', (e) => {
       if (e.key === 'Enter') { e.preventDefault(); verifyKey(); }
     });
@@ -1103,7 +953,11 @@
       });
     }
 
-    window.onload = init;
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
   </script>
 </body>
 </html>
