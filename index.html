@@ -5,22 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>SVR Food Products - Sir Arthur Cotton Brand</title>
 
-  <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#064e3b">
 
-  <!-- Icons & Favicon -->
   <link rel="icon" type="image/png" href="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/favicon.png">
   <link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/icons/apple-touch-icon.png">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="SVR Foods">
 
-  <!-- Preload critical images -->
   <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/logo.png">
   <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/background.jpg">
 
-  <!-- Tailwind + Fonts -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -134,8 +130,8 @@
     </header>
 
     <section id="catalogView" class="max-w-4xl mx-auto p-4 space-y-4 pb-36 flex-1 w-full">
-      <div id="headerBannerContainer" class="overflow-hidden rounded-3xl border-2 border-emerald-500/40 shadow-xl bg-emerald-950/40 backdrop-blur-md">
-        <img id="headerBannerImg" src="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/header-banner.jpg" alt="Promotional Banner" class="w-full h-auto max-h-56 object-cover object-center">
+      <div id="headerBannerContainer" class="overflow-hidden rounded-2xl shadow-lg bg-emerald-950/40 backdrop-blur-sm">
+        <img id="headerBannerImg" src="https://cdn.jsdelivr.net/gh/svrcotton/orderonline@main/images/header-banner.jpg" alt="Promotional Banner" class="w-full h-auto block mx-auto">
       </div>
 
       <div class="glass-banner border border-amber-300/80 text-emerald-950 text-xs px-4 py-2.5 rounded-2xl text-center font-bold shadow-md flex items-center justify-center gap-2">
@@ -226,6 +222,20 @@
         </div>
       </div>
 
+      <div class="max-w-4xl mx-auto px-4 pt-8">
+        <div class="bg-emerald-900/50 backdrop-blur-sm rounded-2xl border border-emerald-700/60 p-5">
+          <div class="text-center mb-4">
+            <h4 class="text-sm font-extrabold text-amber-300 uppercase tracking-wider flex items-center justify-center gap-2">
+              <span>🔗</span>
+              <span>Connect With Our Official Channels</span>
+              <span>🔗</span>
+            </h4>
+            <p class="text-[11px] text-emerald-200/80 mt-1">Follow us for offers, updates & fresh arrivals</p>
+          </div>
+          <div id="socialLinksGrid" class="flex flex-wrap items-center justify-center gap-2.5"></div>
+        </div>
+      </div>
+
       <div class="max-w-4xl mx-auto px-4 py-8 space-y-6 text-xs">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div class="space-y-2">
@@ -241,11 +251,6 @@
             <p id="footerPhone" class="text-emerald-100 font-medium text-sm">+91 6301354654</p>
             <p id="footerEmail" class="text-emerald-200/80">support@svrfoods.com</p>
           </div>
-        </div>
-
-        <div class="border-t border-emerald-800/80 pt-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <span class="text-emerald-200 font-medium">Connect with our official channels:</span>
-          <div id="socialLinksGrid" class="flex flex-wrap items-center gap-2"></div>
         </div>
 
         <div class="border-t border-emerald-900 pt-4 text-center text-emerald-300/60 text-[11px]">
@@ -393,7 +398,6 @@
   </div>
 
   <script>
-    /* ========== CONFIG ========== */
     const API_URL = "https://script.google.com/macros/s/AKfycbxOsf9j-aHbMLszsDsWpyC4zxMYHcfMUROQ31aHawxmGp6FzUCLIj0OK8rMAkxmljXSNw/exec";
 
     const GITHUB_USER = "svrcotton";
@@ -402,6 +406,8 @@
     const CDN = `https://cdn.jsdelivr.net/gh/${GITHUB_USER}/${GITHUB_REPO}@${GITHUB_BRANCH}`;
 
     const WHATSAPP_NUMBER = "918603095167";
+    const FREE_DELIVERY_THRESHOLD = 1000;
+    const DELIVERY_CHARGE = 60;
 
     const PAYMENT_RULES = {
       distributor: { mode: "COD", status: "Free Door Delivery", note: "Payment upon delivery" },
@@ -513,7 +519,7 @@
         if (platKey === 'whatsapp') href = `https://wa.me/${WHATSAPP_NUMBER}`;
         const a = document.createElement('a');
         a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer";
-        a.className = "px-3 py-1.5 rounded-xl bg-emerald-900 hover:bg-emerald-800 text-emerald-100 hover:text-white font-semibold text-xs border border-emerald-700 shadow-xs transition inline-flex items-center gap-1.5";
+        a.className = "px-3.5 py-2 rounded-xl bg-emerald-900 hover:bg-emerald-800 text-emerald-100 hover:text-white font-semibold text-xs border border-emerald-700 shadow-xs transition inline-flex items-center gap-1.5";
         a.innerHTML = label;
         container.appendChild(a);
       });
@@ -832,12 +838,27 @@
         container.appendChild(row);
       });
 
-      document.getElementById('deliveryDisplay').innerText = "FREE";
-      document.getElementById('deliveryTerms').innerText = "Free doorstep delivery on all orders.";
+      let deliveryFee = 0;
+      if (role === 'enduser') {
+        if (subtotal >= FREE_DELIVERY_THRESHOLD) {
+          deliveryFee = 0;
+          document.getElementById('deliveryDisplay').innerText = "FREE";
+          document.getElementById('deliveryTerms').innerText = "🎉 Free delivery unlocked! You saved ₹60.";
+        } else {
+          deliveryFee = DELIVERY_CHARGE;
+          document.getElementById('deliveryDisplay').innerText = `₹${DELIVERY_CHARGE}`;
+          document.getElementById('deliveryTerms').innerText = `Add ₹${FREE_DELIVERY_THRESHOLD - subtotal} more to get FREE delivery (save ₹60).`;
+        }
+      } else {
+        deliveryFee = 0;
+        document.getElementById('deliveryDisplay').innerText = "FREE";
+        document.getElementById('deliveryTerms').innerText = "Free scheduled doorstep delivery for hotel & distributor partners.";
+      }
+
       const rule = PAYMENT_RULES[role] || PAYMENT_RULES.enduser;
       document.getElementById('paymentNoteText').innerHTML = `<strong>${rule.status}:</strong> ${rule.note}.`;
       document.getElementById('subtotalDisplay').innerText = subtotal;
-      document.getElementById('grandTotalDisplay').innerText = subtotal;
+      document.getElementById('grandTotalDisplay').innerText = subtotal + deliveryFee;
     }
 
     function sendOrderToWhatsApp() {
@@ -855,6 +876,12 @@
         orderItemsText += `• ${prod.name} (${prod.pack_size}) x ${cart[id]} = ₹${lineTotal}\n`;
       });
 
+      let deliveryFee = 0;
+      if (role === 'enduser') {
+        deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_CHARGE;
+      }
+
+      const grandTotal = subtotal + deliveryFee;
       const roleTitle = role === 'distributor' ? 'DISTRIBUTOR' : (role === 'hotel' ? 'HOTEL / RESTAURANT' : 'RETAIL CUSTOMER');
 
       let msg = `*NEW ORDER - SVR FOOD PRODUCTS (గోదావరి)*\n`;
@@ -877,8 +904,8 @@
       msg += `*ITEMS ORDERED:*\n${orderItemsText}`;
       msg += `============================\n`;
       msg += `*Subtotal:* ₹${subtotal}\n`;
-      msg += `*Delivery:* FREE\n`;
-      msg += `*Total Amount:* ₹${subtotal}\n`;
+      msg += `*Delivery:* ${deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee}\n`;
+      msg += `*Total Amount:* ₹${grandTotal}\n`;
       msg += `============================\n`;
       if (role === 'enduser') {
         msg += `👉 _Please share your UPI Payment QR. I will complete payment for order dispatch._`;
