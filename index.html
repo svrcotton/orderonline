@@ -41,7 +41,7 @@
         <div>
           <h1 id="welcomeTitle" class="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-md">SVR Food Products</h1>
           <p id="welcomeTagline" class="text-xs text-emerald-200 mt-1 font-semibold drop-shadow-sm">నాణ్యతకు నమ్మకం • రుచికి చిరునామా</p>
-          <p class="text-[10px] text-amber-300 font-bold mt-1">App v3.0</p>
+          <p class="text-[10px] text-amber-300 font-bold mt-1">App v3.5</p>
         </div>
       </div>
       <div class="bg-emerald-950/60 backdrop-blur-xl rounded-3xl p-6 border border-emerald-500/30 shadow-2xl text-left space-y-3.5">
@@ -180,7 +180,6 @@
         </div>
       </div>
 
-      <!-- REDESIGNED PAYMENT SECTION -->
       <div id="paymentCard" class="rounded-3xl border-2 shadow-lg overflow-hidden">
         <div id="paymentHeader" class="px-5 py-3 flex items-center gap-3">
           <div id="paymentIcon" class="w-10 h-10 rounded-full flex items-center justify-center text-xl font-black">💳</div>
@@ -193,7 +192,7 @@
           <div class="flex items-start gap-2.5 text-xs">
             <span class="text-base leading-none mt-0.5">📋</span>
             <div>
-              <div class="font-bold text-slate-800" id="paymentModeLabel">Mode</div>
+              <div class="font-bold text-slate-800">Mode</div>
               <div class="text-slate-600 text-[11px]" id="paymentModeValue">—</div>
             </div>
           </div>
@@ -294,10 +293,7 @@
           <div><label class="font-bold text-slate-700 block mb-1">Pincode *</label><input type="text" id="pincodeInput" placeholder="6-digit pincode" pattern="[0-9]{6}" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs" required></div>
         </div>
         <div><label class="font-bold text-slate-700 block mb-1">WhatsApp Phone Number *</label><input type="tel" id="contactNumberInput" placeholder="10-digit mobile number" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs font-medium" required></div>
-        <div id="modalScheduleBox" class="hidden">
-          <label class="font-bold text-slate-700 block mb-1">Preferred Delivery Schedule (Doorstep):</label>
-          <input type="text" id="modalScheduleInput" placeholder="e.g. Tomorrow 8:00 AM" class="w-full border p-2.5 rounded-xl outline-emerald-700 text-xs">
-        </div>
+        <input type="hidden" id="modalScheduleInput" value="">
         <div class="flex justify-end gap-2 pt-3 border-t">
           <button type="button" onclick="closeDeliveryModal()" class="px-4 py-2 text-xs font-semibold text-slate-600">Cancel</button>
           <button type="submit" class="px-5 py-2.5 text-xs font-bold bg-emerald-800 hover:bg-emerald-900 text-white rounded-xl transition shadow-md">Save Address</button>
@@ -391,7 +387,7 @@
     const FREE_DELIVERY_THRESHOLD = 1000;
     const DELIVERY_CHARGE = 60;
     const CACHE_KEY = 'svr_catalog_cache_v1';
-    const CACHE_TTL_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
+    const CACHE_TTL_MS = 1000 * 60 * 60 * 24 * 7;
 
     const PAYMENT_RULES = {
       distributor: { icon: "🚚", color: "emerald", title: "Cash on Delivery", mode: "COD — Pay on Delivery", delivery: "Free Door Delivery", instruction: "Pay when the goods arrive at your doorstep." },
@@ -559,10 +555,9 @@
       document.getElementById('roleBadge').innerText = role === 'enduser' ? 'RETAIL' : role.toUpperCase();
       const nameLabel = document.getElementById('roleNameLabel');
       const nameInput = document.getElementById('roleNameInput');
-      const schedBox = document.getElementById('modalScheduleBox');
-      if (role === 'distributor') { nameLabel.innerText = "Distributor Name *"; nameInput.placeholder = "Enter distributor / agency name"; schedBox.classList.remove('hidden'); }
-      else if (role === 'hotel') { nameLabel.innerText = "Hotel / Restaurant Name *"; nameInput.placeholder = "Enter hotel or restaurant name"; schedBox.classList.remove('hidden'); }
-      else { nameLabel.innerText = "Full Name *"; nameInput.placeholder = "Enter your full name"; schedBox.classList.add('hidden'); }
+      if (role === 'distributor') { nameLabel.innerText = "Distributor Name *"; nameInput.placeholder = "Enter distributor / agency name"; }
+      else if (role === 'hotel') { nameLabel.innerText = "Hotel / Restaurant Name *"; nameInput.placeholder = "Enter hotel or restaurant name"; }
+      else { nameLabel.innerText = "Full Name *"; nameInput.placeholder = "Enter your full name"; }
       document.getElementById('welcomeScreen').classList.add('hidden');
       document.getElementById('appScreen').classList.remove('hidden');
       document.getElementById('appScreen').classList.add('flex');
@@ -712,16 +707,14 @@
         streetAddress: document.getElementById('streetAddressInput').value.trim(),
         landmark: document.getElementById('landmarkInput').value.trim(),
         pincode: document.getElementById('pincodeInput').value.trim(),
-        contact: document.getElementById('contactNumberInput').value.trim(),
-        schedule: document.getElementById('modalScheduleInput').value.trim()
+        contact: document.getElementById('contactNumberInput').value.trim()
       };
       const summaryDiv = document.getElementById('savedAddressSummary');
       summaryDiv.innerHTML = `
         <div class="font-extrabold text-emerald-950 text-sm">${deliveryInfo.name} (${deliveryInfo.contact})</div>
         <div>${deliveryInfo.streetAddress}, Landmark: ${deliveryInfo.landmark}</div>
         <div>${deliveryInfo.village} (V), ${deliveryInfo.mandal} (M)</div>
-        <div class="font-bold text-amber-950">${deliveryInfo.district} Dist, ${deliveryInfo.state} - ${deliveryInfo.pincode}</div>
-        ${deliveryInfo.schedule ? `<div class="text-emerald-700 font-bold mt-1">🚚 Schedule: ${deliveryInfo.schedule}</div>` : ''}`;
+        <div class="font-bold text-amber-950">${deliveryInfo.district} Dist, ${deliveryInfo.state} - ${deliveryInfo.pincode}</div>`;
       summaryDiv.classList.remove('hidden');
       document.getElementById('noAddressNotice').classList.add('hidden');
       document.getElementById('addressActionText').innerText = "Edit Details ✎";
@@ -907,27 +900,76 @@
       const itemKeys = Object.keys(cart);
       if (itemKeys.length === 0) { showToast('Your cart is empty.'); return; }
       if (!deliveryInfo) { showToast('Please fill out your delivery address first.'); openDeliveryModal(); return; }
+
       let subtotal = 0;
-      let orderItemsText = "";
-      itemKeys.forEach(id => {
+      let itemLines = "";
+      itemKeys.forEach((id, idx) => {
         const prod = products.find(p => p.id === id);
         const price = getProductPrice(prod);
         const lineTotal = price * cart[id];
         subtotal += lineTotal;
-        orderItemsText += `• ${prod.name} (${prod.pack_size}) x ${cart[id]} = ₹${lineTotal}\n`;
+        itemLines += `${idx + 1}. ${prod.name} (${prod.pack_size}) × ${cart[id]} = ₹${lineTotal}\n`;
       });
+
       let deliveryFee = 0;
-      if (role === 'enduser') { deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_CHARGE; }
+      if (role === 'enduser') {
+        deliveryFee = subtotal >= FREE_DELIVERY_THRESHOLD ? 0 : DELIVERY_CHARGE;
+      }
       const grandTotal = subtotal + deliveryFee;
-      const roleTitle = role === 'distributor' ? 'DISTRIBUTOR' : (role === 'hotel' ? 'HOTEL / RESTAURANT' : 'RETAIL CUSTOMER');
-      let msg = `*NEW ORDER - SVR FOOD PRODUCTS (గోదావరి)*\n============================\n`;
-      msg += `*Order Type:* ${roleTitle}\n*Name:* ${deliveryInfo.name}\n*Contact:* ${deliveryInfo.contact}\n----------------------------\n*DELIVERY ADDRESS:*\n`;
-      msg += `*Street/Door:* ${deliveryInfo.streetAddress}\n*Landmark:* ${deliveryInfo.landmark}\n*Village/Town:* ${deliveryInfo.village}\n*Mandal:* ${deliveryInfo.mandal}\n*District:* ${deliveryInfo.district}\n*State:* ${deliveryInfo.state} - ${deliveryInfo.pincode}\n`;
-      if (deliveryInfo.schedule && (role === 'hotel' || role === 'distributor')) { msg += `*Requested Slot:* ${deliveryInfo.schedule}\n`; }
-      msg += `============================\n*ITEMS ORDERED:*\n${orderItemsText}============================\n`;
-      msg += `*Subtotal:* ₹${subtotal}\n*Delivery:* ${deliveryFee === 0 ? 'FREE' : '₹' + deliveryFee}\n*Total Amount:* ₹${grandTotal}\n============================\n`;
-      msg += role === 'enduser' ? `👉 _Please share your UPI Payment QR. I will complete payment for order dispatch._` : `👉 _Payment mode: Payment upon delivery. Kindly confirm scheduled dispatch._`;
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
+
+      const roleData = {
+        distributor: { emoji: "🏢", label: "Distributor" },
+        hotel:       { emoji: "🏨", label: "Hotel / Restaurant" },
+        enduser:     { emoji: "🛍️", label: "Retail Customer" }
+      };
+      const r = roleData[role] || roleData.enduser;
+
+      const line = "━━━━━━━━━━━━━━━━━━━";
+
+      let msg = "";
+      msg += `🌾 *SVR FOOD PRODUCTS* 🌾\n`;
+      msg += `_Sir Arthur Cotton Brand_\n`;
+      msg += `నాణ్యతకు నమ్మకం • రుచికి చిరునామా\n\n`;
+      msg += `🛒 *NEW ORDER*\n\n`;
+
+      msg += `👤 *Customer*\n`;
+      msg += `${r.emoji} ${r.label}\n`;
+      msg += `📛 ${deliveryInfo.name}\n`;
+      msg += `📞 ${deliveryInfo.contact}\n\n`;
+
+      msg += `📍 *Delivery Address*\n`;
+      msg += `${deliveryInfo.streetAddress}\n`;
+      msg += `${deliveryInfo.landmark}\n`;
+      msg += `${deliveryInfo.village}, ${deliveryInfo.mandal}\n`;
+      msg += `${deliveryInfo.district}, ${deliveryInfo.state}\n`;
+      msg += `PIN: ${deliveryInfo.pincode}\n\n`;
+
+      msg += `🛍️ *Items*\n`;
+      msg += itemLines;
+      msg += `\n`;
+
+      msg += `${line}\n`;
+      msg += `Subtotal    :  ₹${subtotal}\n`;
+      msg += `Delivery    :  ${deliveryFee === 0 ? '🎉 FREE' : '₹' + deliveryFee}\n`;
+      msg += `*TOTAL       :  ₹${grandTotal}*\n`;
+      msg += `${line}\n\n`;
+
+      if (role === 'enduser') {
+        msg += `💳 Payment: UPI (Advance)\n`;
+        msg += `✅ Send after payment confirmation\n\n`;
+      } else {
+        msg += `💳 Payment: Cash on Delivery\n`;
+        msg += `✅ Pay upon delivery\n\n`;
+      }
+
+      msg += `🙏 _Thank you for ordering_\n\n`;
+
+      msg += `🌾 *SVR COTTON ఇడ్లీ రవ్వ మరియు మినపగుళ్ళు* 🌾\n`;
+      msg += `_ఒకసారి మా 1+5 కాంబినేషన్ వాడి చూడండి_\n`;
+      msg += `_మెత్తని ఇడ్లికి కాటన్ జోడి_ 🍚`;
+
+      const waURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+      window.open(waURL, '_blank');
     }
 
     function showToast(message) {
